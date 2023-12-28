@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "log-parser"
+version = "0.1.0"
+description = "Make it possible to analyze any log."
+authors = ["koba-masa"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pydantic = "^2.5.3"
+black = "^23.12.1"
+mypy = "^1.8.0"
+ruff = "^0.1.9"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
