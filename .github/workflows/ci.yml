@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install Package
+        run: |
+            pip install poetry
+            poetry install
+
+      - name: Run Lint
+        run: |
+          poetry run mypy --explicit-package-bases .
+          poetry run ruff check .
+          poetry run black --check .
+
+      # - name: Setup MinIO
+      #   run: |
+      #     mkdir -p /tmp/data/.minio.sys
+      #     cp -rp ./docker_files/minio/data/* /tmp/data/.
+      #     cp -rp ./docker_files/minio/config /tmp/data/.minio.sys/.
+      #     docker run -d -p 9000:9000 --name minio \
+      #                -e "MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}" \
+      #                -e "MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}" \
+      #                -v /tmp/data:/data \
+      #                minio/minio server /data
+
+      # - name: Run test
+      #   run: |
+      #     poetry run pytest
