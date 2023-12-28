@@ -6,9 +6,14 @@ services:
       context: .
       dockerfile: ./docker_files/Dockerfile
     volumes:
-      - ./:/app
-    working_dir: /app
+      - ./:/app/log_parser
+      - app_poetry:/root/.cache/pypoetry
+    working_dir: /app/log_parser
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app/log_parser
     tty: true
     stdin_open: true
+
+volumes:
+  app_poetry:
+    external: false
