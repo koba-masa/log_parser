@@ -2,6 +2,8 @@
 
 あらゆるログを解析する
 
+[![CI](https://github.com/koba-masa/log_parser/actions/workflows/ci.yml/badge.svg)](https://github.com/koba-masa/log_parser/actions/workflows/ci.yml)
+
 ## コマンド
 
 - パッケージインストール
