@@ -4,14 +4,38 @@
 
 ## コマンド
 
-### パッケージインストール
+- パッケージインストール
 
 ```sh
-docker-compose run --rm app poetry install
+make install
 ```
 
-### 実行
+- 実行
 
 ```sh
-docker-compose run --rm app poetry run python log_parser
+make run
+```
+
+- Linter
+
+```sh
+make run
+```
+
+- Lint(fix)
+
+```sh
+make fix
+```
+
+- テスト
+
+```sh
+make test
+```
+
+- CI
+
+```sh
+make ci
 ```
