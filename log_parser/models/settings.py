@@ -1,5 +1,5 @@
 import os
-import yaml
+from pyaml_env import parse_config
 
 SETTINGS = None
 
@@ -10,5 +10,4 @@ def load_config(config_path: str) -> None:
     if not os.path.isfile(config_path):
         raise FileNotFoundError(f"Config file not found: {config_path}")
 
-    with open(config_path) as file:
-        SETTINGS = yaml.safe_load(file)
+    SETTINGS = parse_config(config_path)

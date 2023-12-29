@@ -250,6 +250,23 @@ dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
+name = "pyaml-env"
+version = "1.2.1"
+description = "Provides yaml file parsing with environment variable resolution"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "pyaml_env-1.2.1-py3-none-any.whl", hash = "sha256:2e7da2d4bba0629711ade1a41864e5e200c84ded896a3d27e9f560fae7311c36"},
+    {file = "pyaml_env-1.2.1.tar.gz", hash = "sha256:6d5dc98c8c82df743a132c196e79963050c9feb05b0a6f25f3ad77771d3d95b0"},
+]
+
+[package.dependencies]
+PyYAML = ">=5.0,<=7.0"
+
+[package.extras]
+test = ["pytest"]
+
+[[package]]
 name = "pydantic"
 version = "2.5.3"
 description = "Data validation using Python type hints"
@@ -563,4 +580,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "47427f6a3087f36b9c99c687c759d9851648e5e737288efa7daa37f8cb675df8"
+content-hash = "6942cb4eaa912270ccb8525c4aefdd63793f1e349864e78341f37e73ed4d045d"

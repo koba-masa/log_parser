@@ -10,7 +10,8 @@ services:
       - app_poetry:/root/.cache/pypoetry
     working_dir: /app/log_parser
     environment:
-      - PYTHONPATH=/app/log_parser/log_parser
+      PYTHONPATH: /app/log_parser/log_parser
+      AWS_ENDPOINT_URL: http://minio:9000
     tty: true
     stdin_open: true
 
