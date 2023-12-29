@@ -46,4 +46,5 @@ jobs:
       - name: Run test
         run: |
           aws --endpoint-url ${{ env.AWS_ENDPOINT_URL }} s3 mb s3://log-parser-test
+          aws --endpoint-url ${{ env.AWS_ENDPOINT_URL }} s3 cp docker_files/minio/data s3://log-parser-test --recursive
           poetry run pytest
