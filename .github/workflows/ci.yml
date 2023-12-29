@@ -12,6 +12,7 @@ jobs:
       AWS_DEFAULT_REGION: ap-northeast-1
       AWS_EC2_METADATA_DISABLED: true
       AWS_ENDPOINT_URL: http://localhost:9000
+      PYTHONPATH: log_parser
 
     services:
       minio:
