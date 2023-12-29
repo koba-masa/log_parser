@@ -10,7 +10,7 @@ services:
       - app_poetry:/root/.cache/pypoetry
     working_dir: /app/log_parser
     environment:
-      - PYTHONPATH=/app/log_parser
+      - PYTHONPATH=/app/log_parser/log_parser
     tty: true
     stdin_open: true
 
