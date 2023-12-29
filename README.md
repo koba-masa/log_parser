@@ -21,7 +21,7 @@ make run
 - Linter
 
 ```sh
-make run
+make run ARG=config/sample.yaml
 ```
 
 - Lint(fix)

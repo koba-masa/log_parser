@@ -4,7 +4,7 @@ install:
 	docker-compose run --rm app poetry install
 
 run:
-	docker-compose run --rm app poetry run python log_parser
+	docker-compose run --rm app poetry run python log_parser $(ARG)
 
 lint:
 	docker-compose run --rm app poetry run mypy --explicit-package-bases .
