@@ -16,7 +16,7 @@ fix:
 	docker-compose run --rm app poetry run black .
 
 test:
-	docker-compose run --rm app poetry run pytest
+	docker-compose run --rm app poetry run pytest -s
 
 ci:
 	make lint
