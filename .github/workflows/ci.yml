@@ -45,4 +45,5 @@ jobs:
 
       - name: Run test
         run: |
+          aws --endpoint-url ${{ env.AWS_ENDPOINT_URL }} s3 mb s3://log-parser-test
           poetry run pytest
