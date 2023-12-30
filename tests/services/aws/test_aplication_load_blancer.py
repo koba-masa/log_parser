@@ -20,7 +20,7 @@ def test_init() -> None:
     assert instance.config["name"] == "sample"
 
 
-def test_execute(delete_dir) -> None:
+def test_execute(delete_dir) -> None:  # type: ignore
     base_output_dir = "tmp/tests/202312300121"
     config = settings.SETTINGS["aws_application_load_balancer"][0]
 
