@@ -82,7 +82,7 @@ def test_download_without_existing_object() -> None:
     assert result is None
 
 
-def test_get_bucket_location(mocker) -> None:
+def test_get_bucket_location(mocker) -> None:  # type: ignore
     instance = S3Client()
     instance.client = mocker.Mock()
     instance.client.get_bucket_location.return_value = {
