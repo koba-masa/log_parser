@@ -1,13 +1,25 @@
+import datetime
 import sys
 from models import settings
+from services.aws import ApplicationLoadBalancer as ALB
 
 
 class LogParser:
+    TARGET_KEYS = {
+        "aws_alb": "aws_application_load_balancer",
+    }
+
     def __init__(self, config_path: str) -> None:
         settings.load_config(config_path)
+        self.base_output_dir = self.output_dir()
 
-    def parse(self) -> None:
-        print(settings.SETTINGS)
+    def execute(self) -> None:
+        if self.TARGET_KEYS["aws_alb"] in settings.SETTINGS:
+            for config in settings.SETTINGS.get(self.TARGET_KEYS["aws_alb"], []):
+                ALB(self.base_output_dir, config).execute()
+
+    def output_dir(self) -> str:
+        return f"tmp/results/{datetime.datetime.now().strftime('%Y%m%d_%H%M_%S')}"
 
 
 if __name__ == "__main__":
@@ -17,4 +29,4 @@ if __name__ == "__main__":
 
     config_path = sys.argv[1]
     parser = LogParser(config_path)
-    parser.parse()
+    parser.execute()

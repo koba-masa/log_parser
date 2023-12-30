@@ -12,6 +12,7 @@ services:
     environment:
       PYTHONPATH: /app/log_parser/log_parser
       AWS_ENDPOINT_URL: http://minio:9000
+      TZ: Asia/Tokyo
     tty: true
     stdin_open: true
 
