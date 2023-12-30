@@ -60,3 +60,20 @@ def test_list_object_v2(
     results = instance.list_object_v2("log-parser-test", prefix, max_per_page)
 
     assert results == expected_results
+
+
+def test_download() -> None:
+    instance = S3Client()
+    result = instance.download(
+        "log-parser-test",
+        "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/28/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231228T2200Z_1.2.3.4_DFXV1dHFH.log.gz",
+    )
+
+    assert result is not None
+
+
+def test_download_without_existing_object() -> None:
+    instance = S3Client()
+    result = instance.download("log-parser-test", "without_existing_object.py")
+
+    assert result is None
