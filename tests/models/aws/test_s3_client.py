@@ -20,6 +20,7 @@ def test_init() -> None:
             "sample/",
             1,
             [
+                "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/28/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231228T2145Z_1.2.3.4_KddaYsf3.log.gz",
                 "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/28/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231228T2200Z_1.2.3.4_DFXV1dHFH.log.gz",
                 "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/28/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231228T2200Z_1.2.3.5_lofR4gdsgfs.log.gz",
                 "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/29/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231229T2340Z_1.2.3.4_ddGdfda12.log.gz",
@@ -30,6 +31,7 @@ def test_init() -> None:
             "sample/",
             3,
             [
+                "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/28/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231228T2145Z_1.2.3.4_KddaYsf3.log.gz",
                 "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/28/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231228T2200Z_1.2.3.4_DFXV1dHFH.log.gz",
                 "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/28/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231228T2200Z_1.2.3.5_lofR4gdsgfs.log.gz",
                 "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/29/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231229T2340Z_1.2.3.4_ddGdfda12.log.gz",
@@ -40,6 +42,7 @@ def test_init() -> None:
             "sample/",
             1000,
             [
+                "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/28/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231228T2145Z_1.2.3.4_KddaYsf3.log.gz",
                 "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/28/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231228T2200Z_1.2.3.4_DFXV1dHFH.log.gz",
                 "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/28/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231228T2200Z_1.2.3.5_lofR4gdsgfs.log.gz",
                 "sample/AWSLogs/123456789012/elasticloadbalancing/ap-northeast-1/2023/12/29/123456789012_elasticloadbalancing_ap-northeast-1_app.sample_20231229T2340Z_1.2.3.4_ddGdfda12.log.gz",
