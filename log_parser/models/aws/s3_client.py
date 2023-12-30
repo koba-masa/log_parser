@@ -53,6 +53,11 @@ class S3Client:
 
             raise ce
 
+    def get_bucket_location(self, bucket: str) -> str:
+        response = self.client.get_bucket_location(Bucket=bucket)
+
+        return response["LocationConstraint"]
+
     def __endpoint_url(self) -> str:
         endpoint_url = settings.SETTINGS.get("aws_endpoint_url", None)
         endpoint_url = None if endpoint_url == "" else endpoint_url

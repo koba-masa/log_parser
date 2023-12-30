@@ -77,3 +77,15 @@ def test_download_without_existing_object() -> None:
     result = instance.download("log-parser-test", "without_existing_object.py")
 
     assert result is None
+
+
+def test_get_bucket_location(mocker) -> None:
+    instance = S3Client()
+    instance.client = mocker.Mock()
+    instance.client.get_bucket_location.return_value = {
+        "LocationConstraint": "ap-northeast-1"
+    }
+
+    result = instance.get_bucket_location("log-parser-test")
+
+    assert result == "ap-northeast-1"
