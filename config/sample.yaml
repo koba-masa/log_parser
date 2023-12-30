@@ -1,3 +1,11 @@
 aws_access_key:
 aws_secret_access_key:
 aws_endpoint_url:
+
+aws_application_load_balancer:
+  - name:  # unique and snake_case
+    account_id:
+    region:
+    bucket:
+    prefix:  # prefix to AWSLogs. ex) s3://log-parser-test/sample/AWSLogs/123456789012/ → sample
+    target_datetime:  # target utc datetime. ex) 2023/12/31 15:00
