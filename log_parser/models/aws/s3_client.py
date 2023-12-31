@@ -1,6 +1,7 @@
 import boto3
 from models import settings
-from typing import List
+from typing import Any, List
+from botocore.exceptions import ClientError
 
 
 class S3Client:
@@ -40,6 +41,22 @@ class S3Client:
                 results.extend([content["Key"] for content in response["Contents"]])
 
         return results
+
+    def download(self, bucket: str, key: str) -> Any:
+        try:
+            response = self.client.get_object(Bucket=bucket, Key=key)
+
+            return response["Body"].read()
+        except ClientError as ce:
+            if ce.response["Error"]["Code"] == "NoSuchKey":
+                return None
+
+            raise ce
+
+    def get_bucket_location(self, bucket: str) -> str:
+        response = self.client.get_bucket_location(Bucket=bucket)
+
+        return response["LocationConstraint"]
 
     def __endpoint_url(self) -> str:
         endpoint_url = settings.SETTINGS.get("aws_endpoint_url", None)
