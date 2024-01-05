@@ -1,6 +1,6 @@
 aws_access_key: 'minio'
 aws_secret_access_key: 'minio123'
-aws_endpoint_url: !ENV ${AWS_ENDPOINT_URL}
+aws_endpoint_url: !ENV ${DUMMY_ENDPOINT_URL}
 
 aws_application_load_balancer:
   - name: sample # unique and snake_case
