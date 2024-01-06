@@ -11,7 +11,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: minio123
       AWS_DEFAULT_REGION: ap-northeast-1
       AWS_EC2_METADATA_DISABLED: true
-      AWS_ENDPOINT_URL: http://localhost:9000
+      DUMMY_ENDPOINT_URL: http://localhost:9000
       PYTHONPATH: log_parser
 
     services:
@@ -45,6 +45,6 @@ jobs:
 
       - name: Run test
         run: |
-          aws --endpoint-url ${{ env.AWS_ENDPOINT_URL }} s3 mb s3://log-parser-test
-          aws --endpoint-url ${{ env.AWS_ENDPOINT_URL }} s3 cp docker_files/minio/data s3://log-parser-test --recursive
+          aws --endpoint-url ${{ env.DUMMY_ENDPOINT_URL }} s3 mb s3://log-parser-test
+          aws --endpoint-url ${{ env.DUMMY_ENDPOINT_URL }} s3 cp docker_files/minio/data s3://log-parser-test --recursive
           poetry run pytest

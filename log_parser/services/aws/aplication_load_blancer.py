@@ -128,7 +128,7 @@ class ApplicationLoadBalancer:
         return processed_keys
 
     def __create_prefix(self, base_prefix: str, datetime: datetime.datetime) -> str:
-        return "{}/AWSLogs/{}/elasticloadbalancing/{}/{}/{}/{}/".format(
+        return "{}/AWSLogs/{}/elasticloadbalancing/{}/{}/{:02}/{:02}/".format(
             base_prefix,
             self.config["account_id"],
             self.config["region"],
