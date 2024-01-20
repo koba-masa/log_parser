@@ -3,6 +3,7 @@ from services.aws import AWSBase
 from datetime import datetime
 from typing import Any, Dict, List
 from models.aws import CloudWatchClient
+from models.aws.cloudwatch import Metric
 
 import pytz
 
@@ -25,6 +26,9 @@ class CloudWatchMetric(AWSBase):
         ).astimezone(tz)
 
         for config_metric in self.config["metrics"]:
+            if not self.__check_metric_validation(config_metric):
+                continue
+
             response = self.cloudwatch_client.get_metric_data(
                 self.metric_data_queries(config_metric),
                 start_time,
@@ -69,6 +73,26 @@ class CloudWatchMetric(AWSBase):
                 # "Period": 123,
             }
         ]
+
+    def __check_metric_validation(self, config_metric: Dict[str, Any]) -> bool:
+        id = config_metric["id"]
+
+        namespace = config_metric["namespace"]
+        if not Metric.check_namespace(namespace):
+            print(f"[ERROR] Invalid namespace: {id}")
+            return False
+
+        metric_name = config_metric["name"]
+        if not Metric.check_metric_name(namespace, metric_name):
+            print(f"[ERROR] Invalid metric name: {id}")
+            return False
+
+        dimensions = [dimension["name"] for dimension in config_metric["dimensions"]]
+        if not Metric.check_dimensions(namespace, metric_name, dimensions):
+            print(f"[ERROR] Invalid dimensions: {id}")
+            return False
+
+        return True
 
     def __shape(
         self, metric_data_result: Dict[str, Any], timezone: Any
