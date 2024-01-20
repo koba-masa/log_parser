@@ -1,0 +1,33 @@
+{
+    "MetricDataResults": [
+        {
+            "Id": "sample",
+            "Label": "RequestCount",
+            "Timestamps": [
+                "2024-01-18 03:55:00+00:00",
+                "2024-01-18 03:50:00+00:00",
+                "2024-01-18 03:45:00+00:00",
+                "2024-01-18 03:40:00+00:00"
+            ],
+            "Values": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "StatusCode": "Complete"
+        }
+    ],
+    "Messages": [],
+    "ResponseMetadata": {
+        "RequestId": "12345678-1234-5678-9012-123456789012",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "x-amzn-requestid": "12345678-1234-5678-9012-123456789012",
+            "content-type": "text/xml",
+            "content-length": "853",
+            "date": "Thu, 18 Jan 2024 07: 08: 39 GMT"
+        },
+        "RetryAttempts": 0
+    }
+}

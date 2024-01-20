@@ -2,11 +2,13 @@ import datetime
 import sys
 from models import settings
 from services.aws import ApplicationLoadBalancer as ALB
+from services.aws import CloudWatchMetric as CWM
 
 
 class LogParser:
     TARGET_KEYS = {
         "aws_alb": "aws_application_load_balancer",
+        "aws_metric": "aws_cloudwatch_metric",
     }
 
     def __init__(self, config_path: str) -> None:
@@ -17,6 +19,10 @@ class LogParser:
         if self.TARGET_KEYS["aws_alb"] in settings.SETTINGS:
             for config in settings.SETTINGS.get(self.TARGET_KEYS["aws_alb"], []):
                 ALB(self.base_output_dir, config).execute()
+
+        if self.TARGET_KEYS["aws_metric"] in settings.SETTINGS:
+            for config in settings.SETTINGS.get(self.TARGET_KEYS["aws_metric"], []):
+                CWM(self.base_output_dir, config).execute()
 
     def output_dir(self) -> str:
         return f"tmp/results/{datetime.datetime.now().strftime('%Y%m%d_%H%M_%S')}"
