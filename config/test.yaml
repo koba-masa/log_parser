@@ -9,3 +9,18 @@ aws_application_load_balancer:
     bucket: log-parser-test
     prefix: sample # prefix to AWSLogs. ex) s3://log-parser-test/sample/AWSLogs/123456789012/ → sample
     target_datetime: 2023/12/28 21:58 # target utc datetime. ex) 2023/12/31 15:00
+
+aws_cloudwatch_metric:
+  - account_id: 453701783227
+    region: ap-northeast-1
+    start_time: 2024/01/18 12:40:00 # 2024/01/05 06:10:00
+    end_time: 2024/01/05 13:00:00 # 2024/01/05 06:20:00
+    timezone: Asia/Tokyo # Asia/Tokyo
+    metrics: # allow array, but only the first element is valid.
+      - id: sample
+        namespace: AWS/ApplicationELB
+        name: RequestCount
+        stat: Sum
+        dimensions:
+          - name: Resource
+            value: sample
