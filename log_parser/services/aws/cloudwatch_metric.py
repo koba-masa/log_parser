@@ -1,4 +1,4 @@
-from services.aws.base import Base
+from services.aws import AWSBase
 
 from datetime import datetime
 from typing import Any, Dict, List
@@ -7,7 +7,7 @@ from models.aws import CloudWatchClient
 import pytz
 
 
-class CloudWatchMetric(Base):
+class CloudWatchMetric(AWSBase):
     TIMESTAMP_FORMAT = {"config": "%Y/%m/%d %H:%M:%S", "result": "%Y-%m-%d %H:%M:%S%z"}
 
     def __init__(self, base_output_dir: str, config: Dict[str, Any]) -> None:
