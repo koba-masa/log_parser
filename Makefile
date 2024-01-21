@@ -1,4 +1,4 @@
-.PHONY: install, run, lint, fix, test, ci
+.PHONY: install, run, lint, fix, test, ci, metrics
 
 install:
 	docker-compose run --rm app poetry install
@@ -21,3 +21,6 @@ test:
 ci:
 	make lint
 	make test
+
+metrics:
+	docker-compose run --rm app poetry run python log_parser/tools/metrics_dict_creation.py $(ARG)

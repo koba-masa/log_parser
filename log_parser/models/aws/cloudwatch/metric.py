@@ -3,13 +3,14 @@ from typing import Dict
 
 
 class Metric:
-    # Namespace -> MetricName -> Dimensions
+    # {
+    #     "NAMESPACE": {
+    #         "METRICNAME" : {
+    #             "Dimensions": ["", ""]
+    #         }
+    #     },
+    # }
     METRICS: Dict[str, Dict[str, Dict[str, list[str]]]] = {
-        # "NAMESPACE": {
-        #     "METRICNAME" : {
-        #         "Dimensions": ["", ""]
-        #     }
-        # },
         "AWS/EC2": {
             "CPUUtilization": {
                 "Dimensions": ["InstanceId"],

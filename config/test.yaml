@@ -24,3 +24,9 @@ aws_cloudwatch_metric:
         dimensions:
           - name: Resource
             value: sample
+
+tools:
+  metrics_dict_creation:
+    region: ap-northeast-1
+    namespaces:
+      - AWS/EC2

@@ -1,0 +1,32 @@
+[
+    {
+        "Namespace": "AWS/EC2",
+        "Dimensions": [
+            {
+                "Name": "InstanceId",
+                "Value": "i-1234567890abcdef0"
+            }
+        ],
+        "MetricName": "NetworkOut"
+    },
+    {
+        "Namespace": "AWS/EC2",
+        "Dimensions": [
+            {
+                "Name": "InstanceId",
+                "Value": "i-abcdef01234567890"
+            }
+        ],
+        "MetricName": "NetworkOut"
+    },
+    {
+        "Namespace": "AWS/EC2",
+        "Dimensions": [
+            {
+                "Name": "InstanceId",
+                "Value": "i-1234567890abcdef0"
+            }
+        ],
+        "MetricName": "CPUUtilization"
+    }
+]

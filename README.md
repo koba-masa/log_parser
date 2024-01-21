@@ -18,6 +18,10 @@ make install
 make run ARG=config/sample.yaml
 ```
 
+```sh
+make metrics ARG=config/production.yaml
+```
+
 - Linter
 
 ```sh
