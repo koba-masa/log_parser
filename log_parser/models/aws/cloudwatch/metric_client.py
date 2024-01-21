@@ -19,3 +19,6 @@ class MetricClient(CloudWatchClient):
             StartTime=start_time,
             EndTime=end_time,
         )
+
+    def list_metrics(self, namespace: str) -> List[Dict[str, Any]]:
+        return self.client.list_metrics(Namespace=namespace)["Metrics"]
