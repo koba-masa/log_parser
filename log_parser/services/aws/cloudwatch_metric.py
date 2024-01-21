@@ -55,7 +55,7 @@ class CloudWatchMetric(AWSBase):
         ]
         return [
             {
-                "Id": config_metric["name"],
+                "Id": config_metric["id"],
                 "AccountId": f"{self.config['account_id']}",
                 "MetricStat": {
                     "Metric": {
