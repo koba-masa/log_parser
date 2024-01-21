@@ -15,16 +15,16 @@ make install
 - 実行
 
 ```sh
-make run
+make run ARG=config/sample.yaml
 ```
 
 - Linter
 
 ```sh
-make run ARG=config/sample.yaml
+make lint
 ```
 
-- Lint(fix)
+- Linter(fix)
 
 ```sh
 make fix
