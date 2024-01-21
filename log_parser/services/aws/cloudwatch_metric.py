@@ -2,7 +2,7 @@ from services.aws import AWSBase
 
 from datetime import datetime
 from typing import Any, Dict, List
-from models.aws import CloudWatchClient
+from models.aws.cloudwatch import MetricClient
 from models.aws.cloudwatch import Metric
 
 import pytz
@@ -14,7 +14,7 @@ class CloudWatchMetric(AWSBase):
     def __init__(self, base_output_dir: str, config: Dict[str, Any]) -> None:
         self.base_output_dir = base_output_dir
         self.config = config
-        self.cloudwatch_client = CloudWatchClient(self.config["region"])
+        self.cloudwatch_client = MetricClient(self.config["region"])
 
     def execute(self) -> None:
         tz = pytz.timezone(self.config["timezone"])
