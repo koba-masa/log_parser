@@ -24,3 +24,9 @@ aws_cloudwatch_metric:
         dimensions:
           - name:
             value:
+
+tools:
+  metrics_dict_creation:
+    region:
+    namespaces:
+      - namespace
