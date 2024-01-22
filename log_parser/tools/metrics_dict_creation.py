@@ -58,7 +58,7 @@ class MetricsDictCreation:
 
 
 if __name__ == "__main__":
-    if not len(sys.argv) == 1:
+    if not len(sys.argv) == 2:
         print("Usage: python log_parser/tools/metrics_dict_creation.py <config_path>")
         sys.exit(1)
 
