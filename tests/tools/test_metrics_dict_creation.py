@@ -5,6 +5,25 @@ import pytest
 from log_parser.tools.metrics_dict_creation import MetricsDictCreation
 
 
+DUMMY_METRIC_DICT = {
+    "AWS/EC2": {
+        "CPUUtilization": {
+            "Dimensions": ["InstanceId"],
+        }
+    },
+    "AWS/ApplicationELB": {
+        "RequestCount": {
+            "Dimensions": ["Resource"],
+        }
+    },
+    "AWS/Lambda": {
+        "Errors": {
+            "Dimensions": ["FunctionName", "Resource"],
+        }
+    },
+}
+
+
 def read_file(filename: str) -> list[str]:
     with open(filename, "r") as f:
         return f.readlines()
@@ -21,6 +40,9 @@ def described_instance(mocker):
             loaded_metric_data = json.load(f)
 
         instance = MetricsDictCreation("config/test.yaml", output_dir)
+
+        instance.metrics = DUMMY_METRIC_DICT
+
         instance.cloudwatch_client = mocker.Mock()
         instance.cloudwatch_client.list_metrics.return_value = loaded_metric_data
 
