@@ -16,6 +16,7 @@ aws_cloudwatch_metric:
     start_time:  # 2024/01/05 06:10:00
     end_time:  # 2024/01/05 06:20:00
     timezone:  # Asia/Tokyo
+    period:  # seconds
     metrics:
       - id:
         namespace:
