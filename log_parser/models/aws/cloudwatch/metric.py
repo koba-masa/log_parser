@@ -10,7 +10,7 @@ class Metric:
     #         }
     #     },
     # }
-    METRICS: Dict[str, Dict[str, Dict[str, list[str]]]] = {
+    METRICS: Dict[str, Dict[str, Dict[str, list[list[str]]]]] = {
         "AWS/Lambda": {"Errors": {"Dimensions": [["FunctionName", "Resource"]]}},
         "AWS/ApplicationELB": {
             "HealthyStateRouting": {
