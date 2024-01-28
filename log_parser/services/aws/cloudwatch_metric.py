@@ -41,7 +41,7 @@ class CloudWatchMetric(AWSBase):
 
             self.output_result(
                 self.base_output_dir,
-                f"{config_metric['id']}.tsv",
+                f"{self.config['filename']}.tsv",
                 deleted_timestamp_results,
             )
 

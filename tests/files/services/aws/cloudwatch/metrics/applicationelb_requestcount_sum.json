@@ -1,7 +1,7 @@
 {
     "MetricDataResults": [
         {
-            "Id": "sample",
+            "Id": "alb_request_count",
             "Label": "RequestCount",
             "Timestamps": [
                 "2024-01-18 03:55:00+00:00",
