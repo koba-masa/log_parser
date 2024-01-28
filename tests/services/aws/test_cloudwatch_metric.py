@@ -15,9 +15,7 @@ def read_file(filename: str) -> list[str]:
 
 @pytest.fixture(scope="function")
 def described_instance(mocker):
-    def _described_instance(metric_data):
-        config = settings.SETTINGS["aws_cloudwatch_metric"][0]
-
+    def _described_instance(config, metric_data):
         loaded_metric_data = None
         with open(metric_data) as f:
             loaded_metric_data = json.load(f)
@@ -32,16 +30,22 @@ def described_instance(mocker):
 
 
 @pytest.mark.parametrize(
-    ["metric_data", "expected_result"],
+    ["config", "metric_data", "expected_result"],
     [
         pytest.param(
+            settings.SETTINGS["aws_cloudwatch_metric"][0],
             "tests/files/services/aws/cloudwatch/metrics/applicationelb_requestcount_sum.json",
             "tests/files/services/aws/cloudwatch/metrics/applicationelb_requestcount_sum.tsv",
         ),
+        pytest.param(
+            settings.SETTINGS["aws_cloudwatch_metric"][1],
+            "tests/files/services/aws/cloudwatch/metrics/applicationelb_requestcount_and_count_200_sum.json",
+            "tests/files/services/aws/cloudwatch/metrics/applicationelb_requestcount_and_count_200_sum.tsv",
+        ),
     ],
 )
-def test_execute(delete_dir, described_instance, metric_data, expected_result):
-    described_instance(metric_data).execute()
+def test_execute(delete_dir, described_instance, config, metric_data, expected_result):
+    described_instance(config, metric_data).execute()
 
     filename = f"{BASE_OUTPUT_DIR}/sample.tsv"
 

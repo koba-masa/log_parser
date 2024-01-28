@@ -16,6 +16,17 @@
                 0.0
             ],
             "StatusCode": "Complete"
+        },
+        {
+            "Id": "alb_request_count_200",
+            "Label": "HTTPCode_Target_2XX_Count",
+            "Timestamps": [
+                "2024-01-18 03:50:00+00:00"
+            ],
+            "Values": [
+                1.0
+            ],
+            "StatusCode": "Complete"
         }
     ],
     "Messages": [],

@@ -25,54 +25,64 @@ class CloudWatchMetric(AWSBase):
             self.config["end_time"], self.TIMESTAMP_FORMAT["config"]
         ).astimezone(tz)
 
-        for config_metric in self.config["metrics"]:
-            if not self.__check_metric_validation(config_metric):
-                continue
+        response = self.cloudwatch_client.get_metric_data(
+            self.metric_data_queries(),
+            start_time,
+            end_time,
+        )
 
-            response = self.cloudwatch_client.get_metric_data(
-                self.metric_data_queries(config_metric),
-                start_time,
-                end_time,
-            )
+        shaped_results = self.__create_base_result(response["MetricDataResults"], tz)
+        shaped_results = self.__shape(shaped_results, response["MetricDataResults"], tz)
 
-            shaped_results = self.__shape(response["MetricDataResults"][0], tz)
-            sorted_results = sorted(shaped_results, key=lambda x: x[0])
-            deleted_timestamp_results = [result[1:] for result in sorted_results]
+        sorted_result_keys = sorted(shaped_results.keys())
+        deleted_timestamp_results = [shaped_results[key] for key in sorted_result_keys]
 
-            self.output_result(
-                self.base_output_dir,
-                f"{config_metric['id']}.tsv",
-                deleted_timestamp_results,
-            )
+        headers = ["date", "time"] + [
+            metric["name"] for metric in self.config["metrics"]
+        ]
+
+        self.output_result(
+            self.base_output_dir,
+            f"{self.config['filename']}.tsv",
+            headers,
+            deleted_timestamp_results,
+        )
 
     # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch/client/get_metric_data.html
-    def metric_data_queries(
-        self, config_metric: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
-        dimensions = [
-            {"Name": dimension["name"], "Value": dimension["value"]}
-            for dimension in config_metric["dimensions"]
-        ]
-        return [
-            {
-                "Id": config_metric["id"],
-                "AccountId": f"{self.config['account_id']}",
-                "MetricStat": {
-                    "Metric": {
-                        "Namespace": config_metric["namespace"],
-                        "MetricName": config_metric["name"],
-                        "Dimensions": dimensions,
+    def metric_data_queries(self) -> List[Dict[str, Any]]:
+        queries = []
+
+        for metric in self.config["metrics"]:
+            if not self.__check_metric_validation(metric):
+                # TODO: 例外を投げる
+                continue
+
+            dimensions = [
+                {"Name": dimension["name"], "Value": dimension["value"]}
+                for dimension in metric["dimensions"]
+            ]
+
+            queries.append(
+                {
+                    "Id": metric["id"],
+                    "AccountId": f"{self.config['account_id']}",
+                    "MetricStat": {
+                        "Metric": {
+                            "Namespace": metric["namespace"],
+                            "MetricName": metric["name"],
+                            "Dimensions": dimensions,
+                        },
+                        "Period": self.config["period"],
+                        "Stat": metric["stat"],
+                        # "Unit": "Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Count"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second"|"None"
                     },
-                    "Period": self.config["period"],
-                    "Stat": config_metric["stat"],
-                    # "Unit": "Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Count"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second"|"None"
-                },
-                # "Expression": "string",
-                # "Label": "string",
-                # "ReturnData": True|False,
-                # "Period": 123,
-            }
-        ]
+                    # "Expression": "string",
+                    # "Label": "string",
+                    # "ReturnData": True|False,
+                    # "Period": 123,
+                }
+            )
+        return queries
 
     def __check_metric_validation(self, config_metric: Dict[str, Any]) -> bool:
         id = config_metric["id"]
@@ -94,26 +104,42 @@ class CloudWatchMetric(AWSBase):
 
         return True
 
+    def __create_base_result(
+        self, results: List[Dict[str, Any]], timezone: Any
+    ) -> Dict[str, List[str]]:
+        data = {}
+        dummy_data = ["0.0"] * len(results)
+        for result in results:
+            for timestamp in result["Timestamps"]:
+                converted = datetime.strptime(
+                    f"{timestamp}",
+                    self.TIMESTAMP_FORMAT["result"],
+                ).astimezone(timezone)
+
+                row_key = converted.strftime("%Y%m%d%H%M%S")
+                data[row_key] = [
+                    converted.strftime("%Y/%m/%d"),
+                    converted.strftime("%H:%M:%S"),
+                ] + dummy_data
+
+        return data
+
     def __shape(
-        self, metric_data_result: Dict[str, Any], timezone: Any
-    ) -> list[list[str]]:
-        timestamps = metric_data_result["Timestamps"]
-        values = metric_data_result["Values"]
+        self,
+        shaped_results: Dict[str, list[str]],
+        metric_data_results: List[Dict[str, Any]],
+        timezone: Any,
+    ) -> Dict[str, List[str]]:
+        for i, result in enumerate(metric_data_results):
+            values = result["Values"]
 
-        shaped_results = []
+            for j, timestamp in enumerate(result["Timestamps"]):
+                row_key = (
+                    datetime.strptime(f"{timestamp}", self.TIMESTAMP_FORMAT["result"])
+                    .astimezone(timezone)
+                    .strftime("%Y%m%d%H%M%S")
+                )
 
-        for i in range(len(timestamps)):
-            timestamp = datetime.strptime(
-                f"{timestamps[i]}", self.TIMESTAMP_FORMAT["result"]
-            ).astimezone(timezone)
-
-            shaped_results.append(
-                [
-                    timestamp.strftime("%Y%m%d%H%M%S"),
-                    timestamp.strftime("%Y/%m/%d"),
-                    timestamp.strftime("%H:%M:%S"),
-                    f"{values[i]}",
-                ]
-            )
+                shaped_results[row_key][2 + i] = f"{values[j]}"
 
         return shaped_results

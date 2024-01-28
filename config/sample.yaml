@@ -17,6 +17,7 @@ aws_cloudwatch_metric:
     end_time:  # 2024/01/05 06:20:00
     timezone:  # Asia/Tokyo
     period:  # seconds
+    filename: # filename without extension. ex) request_count.tsv → request_count
     metrics:
       - id:
         namespace:
