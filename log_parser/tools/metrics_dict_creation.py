@@ -41,11 +41,9 @@ class MetricsDictCreation:
             return
 
         metrics = self.metrics[namespace]
-        if metric_name not in metrics:
-            metrics[metric_name] = {
-                "Dimensions": dimension_keys,
-            }
-            return
+        metrics[metric_name] = {
+            "Dimensions": dimension_keys,
+        }
 
         return
 

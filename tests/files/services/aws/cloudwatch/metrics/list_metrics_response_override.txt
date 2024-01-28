@@ -1,0 +1,1 @@
+{'AWS/EC2': {'CPUUtilization': {'Dimensions': ['InstanceId']}, 'NetworkOut': {'Dimensions': ['InstanceId']}}, 'AWS/ApplicationELB': {'RequestCount': {'Dimensions': ['LoadBalancer']}}, 'AWS/Lambda': {'Errors': {'Dimensions': ['FunctionName', 'Resource']}}}

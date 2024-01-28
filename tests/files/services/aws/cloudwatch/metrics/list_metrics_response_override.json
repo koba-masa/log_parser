@@ -1,0 +1,12 @@
+[
+    {
+        "Namespace": "AWS/ApplicationELB",
+        "Dimensions": [
+            {
+                "Name": "LoadBalancer",
+                "Value": "app/alb_name/1234567890"
+            }
+        ],
+        "MetricName": "RequestCount"
+    }
+]
