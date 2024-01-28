@@ -37,6 +37,11 @@ def described_instance(mocker):
             "tests/files/services/aws/cloudwatch/metrics/applicationelb_requestcount_sum.json",
             "tests/files/services/aws/cloudwatch/metrics/applicationelb_requestcount_sum.tsv",
         ),
+        pytest.param(
+            settings.SETTINGS["aws_cloudwatch_metric"][1],
+            "tests/files/services/aws/cloudwatch/metrics/applicationelb_requestcount_and_count_200_sum.json",
+            "tests/files/services/aws/cloudwatch/metrics/applicationelb_requestcount_and_count_200_sum.tsv",
+        ),
     ],
 )
 def test_execute(delete_dir, described_instance, config, metric_data, expected_result):
