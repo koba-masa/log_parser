@@ -37,9 +37,14 @@ class CloudWatchMetric(AWSBase):
         sorted_result_keys = sorted(shaped_results.keys())
         deleted_timestamp_results = [shaped_results[key] for key in sorted_result_keys]
 
+        headers = ["date", "time"] + [
+            metric["name"] for metric in self.config["metrics"]
+        ]
+
         self.output_result(
             self.base_output_dir,
             f"{self.config['filename']}.tsv",
+            headers,
             deleted_timestamp_results,
         )
 
