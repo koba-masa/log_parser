@@ -28,5 +28,19 @@
             }
         ],
         "MetricName": "CPUUtilization"
+    },
+    {
+        "Namespace": "AWS/Lambda",
+        "Dimensions": [
+            {
+                "Name": "FunctionName",
+                "Value": "test_lambda"
+            },
+            {
+                "Name": "Resource",
+                "Value": "1234567890"
+            }
+        ],
+        "MetricName": "Errors"
     }
 ]

@@ -273,8 +273,9 @@ class Metric:
 
     @classmethod
     def check_dimensions(
-        cls, namespace: str, metric_name: str, dimensions: list[str]
+        cls, namespace: str, metric_name: str, dimension_keys: list[str]
     ) -> bool:
-        return Counter(cls.METRICS[namespace][metric_name]["Dimensions"]) == Counter(
-            dimensions
-        )
+        for dimension in cls.METRICS[namespace][metric_name]["Dimensions"]:
+            if Counter(dimension) == Counter(dimension_keys):
+                return True
+        return False

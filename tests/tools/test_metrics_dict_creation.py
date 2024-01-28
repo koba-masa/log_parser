@@ -8,17 +8,17 @@ from log_parser.tools.metrics_dict_creation import MetricsDictCreation
 DUMMY_METRIC_DICT = {
     "AWS/EC2": {
         "CPUUtilization": {
-            "Dimensions": ["InstanceId"],
+            "Dimensions": [["InstanceId"]],
         }
     },
     "AWS/ApplicationELB": {
         "RequestCount": {
-            "Dimensions": ["Resource"],
+            "Dimensions": [["LoadBalancer"]],
         }
     },
     "AWS/Lambda": {
         "Errors": {
-            "Dimensions": ["FunctionName", "Resource"],
+            "Dimensions": [["FunctionName", "Resource"]],
         }
     },
 }

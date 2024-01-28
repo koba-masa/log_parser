@@ -23,7 +23,7 @@ aws_cloudwatch_metric:
         name: RequestCount
         stat: Sum
         dimensions:
-          - name: Resource
+          - name: LoadBalancer
             value: sample
 
 tools:
