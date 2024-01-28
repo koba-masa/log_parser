@@ -8,17 +8,17 @@ from log_parser.tools.metrics_dict_creation import MetricsDictCreation
 DUMMY_METRIC_DICT = {
     "AWS/EC2": {
         "CPUUtilization": {
-            "Dimensions": ["InstanceId"],
+            "Dimensions": [["InstanceId"]],
         }
     },
     "AWS/ApplicationELB": {
         "RequestCount": {
-            "Dimensions": ["Resource"],
+            "Dimensions": [["LoadBalancer"]],
         }
     },
     "AWS/Lambda": {
         "Errors": {
-            "Dimensions": ["FunctionName", "Resource"],
+            "Dimensions": [["FunctionName", "Resource"]],
         }
     },
 }
@@ -31,12 +31,9 @@ def read_file(filename: str) -> list[str]:
 
 @pytest.fixture(scope="function")
 def described_instance(mocker):
-    def _described_instance(output_dir):
-        metric_data = (
-            "tests/files/services/aws/cloudwatch/metrics/list_metrics_response.json"
-        )
+    def _described_instance(output_dir, mock_metric_data):
         loaded_metric_data = None
-        with open(metric_data) as f:
+        with open(mock_metric_data) as f:
             loaded_metric_data = json.load(f)
 
         instance = MetricsDictCreation("config/test.yaml", output_dir)
@@ -51,13 +48,23 @@ def described_instance(mocker):
     return _described_instance
 
 
-def test_execute(delete_dir, described_instance):
-    expected_result = (
-        "tests/files/services/aws/cloudwatch/metrics/list_metrics_response.txt"
-    )
+@pytest.mark.parametrize(
+    ["mock_metric_data", "expected_result"],
+    [
+        pytest.param(
+            "tests/files/services/aws/cloudwatch/metrics/list_metrics_response.json",
+            "tests/files/services/aws/cloudwatch/metrics/list_metrics_response.txt",
+        ),
+        pytest.param(
+            "tests/files/services/aws/cloudwatch/metrics/list_metrics_response_override.json",
+            "tests/files/services/aws/cloudwatch/metrics/list_metrics_response_override.txt",
+        ),
+    ],
+)
+def test_execute(delete_dir, described_instance, mock_metric_data, expected_result):
     output_dir = "tmp/tests/results"
 
-    described_instance(output_dir).execute()
+    described_instance(output_dir, mock_metric_data).execute()
     filename = f"{output_dir}/{MetricsDictCreation.OUTPUT_FILENAME}"
 
     assert os.path.exists(filename)

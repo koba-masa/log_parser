@@ -1,0 +1,40 @@
+[
+    {
+        "Namespace": "AWS/ApplicationELB",
+        "Dimensions": [
+            {
+                "Name": "LoadBalancer",
+                "Value": "app/alb_name/1234567890"
+            }
+        ],
+        "MetricName": "RequestCount"
+    },
+    {
+        "Namespace": "AWS/ApplicationELB",
+        "Dimensions": [
+            {
+                "Name": "LoadBalancer",
+                "Value": "app/alb_name/1234567890"
+            },
+            {
+                "Name": "TargetGroup",
+                "Value": "target_group_name"
+            }
+        ],
+        "MetricName": "RequestCount"
+    },
+    {
+        "Namespace": "AWS/Lambda",
+        "Dimensions": [
+            {
+                "Name": "FunctionName",
+                "Value": "test_lambda"
+            },
+            {
+                "Name": "Resource",
+                "Value": "1234567890"
+            }
+        ],
+        "MetricName": "Errors"
+    }
+]

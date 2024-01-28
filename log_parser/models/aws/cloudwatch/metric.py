@@ -10,233 +10,798 @@ class Metric:
     #         }
     #     },
     # }
-    METRICS: Dict[str, Dict[str, Dict[str, list[str]]]] = {
-        "AWS/EC2": {"CPUUtilization": {"Dimensions": ["InstanceId"]}},
+    METRICS: Dict[str, Dict[str, Dict[str, list[list[str]]]]] = {
+        "AWS/Lambda": {"Errors": {"Dimensions": [["FunctionName", "Resource"]]}},
         "AWS/ApplicationELB": {
-            "RequestCount": {"Dimensions": ["Resource"]},
             "HealthyStateRouting": {
-                "Dimensions": ["TargetGroup", "AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                ]
             },
-            "UnhealthyStateRouting": {
-                "Dimensions": ["TargetGroup", "AvailabilityZone", "LoadBalancer"]
-            },
-            "HTTPCode_ELB_4XX_Count": {
-                "Dimensions": ["AvailabilityZone", "LoadBalancer"]
+            "RequestCount": {
+                "Dimensions": [
+                    ["TargetGroup", "LoadBalancer"],
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                    ["AvailabilityZone", "LoadBalancer"],
+                    ["LoadBalancer"],
+                ]
             },
             "UnhealthyStateDNS": {
-                "Dimensions": ["TargetGroup", "AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                ]
             },
-            "NewConnectionCount": {"Dimensions": ["AvailabilityZone", "LoadBalancer"]},
             "HTTPCode_Target_2XX_Count": {
-                "Dimensions": ["AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [
+                    ["AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                    ["LoadBalancer"],
+                ]
             },
-            "RequestCountPerTarget": {"Dimensions": ["TargetGroup"]},
+            "RequestCountPerTarget": {
+                "Dimensions": [
+                    ["TargetGroup"],
+                    ["TargetGroup", "LoadBalancer"],
+                    ["TargetGroup", "AvailabilityZone"],
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                ]
+            },
+            "TargetResponseTime": {
+                "Dimensions": [
+                    ["AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                    ["LoadBalancer"],
+                ]
+            },
             "HTTPCode_Target_3XX_Count": {
-                "Dimensions": ["TargetGroup", "AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                    ["LoadBalancer"],
+                    ["AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                ]
             },
-            "HealthyStateDNS": {"Dimensions": ["TargetGroup", "LoadBalancer"]},
-            "AnomalousHostCount": {"Dimensions": ["TargetGroup", "LoadBalancer"]},
-            "TargetResponseTime": {"Dimensions": ["TargetGroup", "LoadBalancer"]},
-            "ClientTLSNegotiationErrorCount": {"Dimensions": ["LoadBalancer"]},
-            "ActiveConnectionCount": {"Dimensions": ["LoadBalancer"]},
-            "HTTPCode_Target_4XX_Count": {"Dimensions": ["LoadBalancer"]},
+            "HealthyStateDNS": {
+                "Dimensions": [
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                ]
+            },
+            "AnomalousHostCount": {
+                "Dimensions": [
+                    ["TargetGroup", "LoadBalancer"],
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                ]
+            },
+            "UnhealthyStateRouting": {
+                "Dimensions": [
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                ]
+            },
+            "NewConnectionCount": {
+                "Dimensions": [["AvailabilityZone", "LoadBalancer"], ["LoadBalancer"]]
+            },
+            "ActiveConnectionCount": {
+                "Dimensions": [["LoadBalancer"], ["AvailabilityZone", "LoadBalancer"]]
+            },
+            "HTTPCode_Target_4XX_Count": {
+                "Dimensions": [
+                    ["LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                    ["AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                ]
+            },
             "UnHealthyHostCount": {
-                "Dimensions": ["TargetGroup", "AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                ]
             },
-            "ProcessedBytes": {"Dimensions": ["AvailabilityZone", "LoadBalancer"]},
+            "HTTPCode_ELB_4XX_Count": {
+                "Dimensions": [["LoadBalancer"], ["AvailabilityZone", "LoadBalancer"]]
+            },
             "DesyncMitigationMode_NonCompliant_Request_Count": {
-                "Dimensions": ["LoadBalancer"]
+                "Dimensions": [["LoadBalancer"], ["AvailabilityZone", "LoadBalancer"]]
             },
-            "HTTPCode_ELB_503_Count": {"Dimensions": ["LoadBalancer"]},
             "UnhealthyRoutingRequestCount": {
-                "Dimensions": ["AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [
+                    ["AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                ]
             },
             "MitigatedHostCount": {
-                "Dimensions": ["TargetGroup", "AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                ]
             },
-            "HTTPCode_ELB_5XX_Count": {"Dimensions": ["LoadBalancer"]},
+            "ProcessedBytes": {
+                "Dimensions": [["LoadBalancer"], ["AvailabilityZone", "LoadBalancer"]]
+            },
             "HealthyHostCount": {
-                "Dimensions": ["TargetGroup", "AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [
+                    ["TargetGroup", "AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                ]
             },
-            "ConsumedLCUs": {"Dimensions": ["LoadBalancer"]},
+            "HTTPCode_ELB_5XX_Count": {
+                "Dimensions": [["AvailabilityZone", "LoadBalancer"], ["LoadBalancer"]]
+            },
+            "ClientTLSNegotiationErrorCount": {
+                "Dimensions": [["AvailabilityZone", "LoadBalancer"], ["LoadBalancer"]]
+            },
+            "ConsumedLCUs": {"Dimensions": [["LoadBalancer"]]},
             "HTTPCode_ELB_3XX_Count": {
-                "Dimensions": ["AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [["AvailabilityZone", "LoadBalancer"]]
             },
-            "RuleEvaluations": {"Dimensions": ["LoadBalancer"]},
+            "HTTPCode_ELB_504_Count": {"Dimensions": [["LoadBalancer"]]},
             "HTTPCode_Target_5XX_Count": {
-                "Dimensions": ["AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [
+                    ["AvailabilityZone", "LoadBalancer"],
+                    ["TargetGroup", "LoadBalancer"],
+                    ["LoadBalancer"],
+                ]
             },
             "ForwardedInvalidHeaderRequestCount": {
-                "Dimensions": ["AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [["AvailabilityZone", "LoadBalancer"], ["LoadBalancer"]]
             },
+            "RuleEvaluations": {"Dimensions": [["LoadBalancer"]]},
             "HTTP_Fixed_Response_Count": {
-                "Dimensions": ["AvailabilityZone", "LoadBalancer"]
+                "Dimensions": [["AvailabilityZone", "LoadBalancer"]]
             },
         },
-        "AWS/Lambda": {"Errors": {"Dimensions": ["FunctionName", "Resource"]}},
         "AWS/ECS": {
-            "MemoryUtilization": {"Dimensions": ["ServiceName", "ClusterName"]},
-            "CPUUtilization": {"Dimensions": ["ServiceName", "ClusterName"]},
+            "CPUUtilization": {"Dimensions": [["ServiceName", "ClusterName"]]},
+            "MemoryUtilization": {"Dimensions": [["ServiceName", "ClusterName"]]},
         },
         "AWS/RDS": {
-            "DDLThroughput": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "Aurora_pq_request_not_chosen_below_min_rows": {
-                "Dimensions": ["DatabaseClass"]
+            "AuroraReplicaLag": {"Dimensions": [["Role", "DBClusterIdentifier"]]},
+            "VolumeReadIOPs": {
+                "Dimensions": [["EngineName"], ["DbClusterIdentifier", "EngineName"]]
             },
-            "VolumeReadIOPs": {"Dimensions": ["EngineName"]},
             "Aurora_pq_request_not_chosen_unsupported_storage_type": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    [],
+                    ["DBInstanceIdentifier"],
+                ]
             },
-            "Aurora_pq_request_not_chosen_no_where_clause": {
-                "Dimensions": ["DBInstanceIdentifier"]
+            "NumBinaryLogFiles": {"Dimensions": [["Role", "DBClusterIdentifier"]]},
+            "ForwardingReplicaSelectLatency": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["EngineName"],
+                ]
             },
-            "StorageNetworkThroughput": {"Dimensions": ["DBInstanceIdentifier"]},
-            "InsertLatency": {"Dimensions": ["DBInstanceIdentifier"]},
-            "Aurora_pq_request_throttled": {"Dimensions": ["DBInstanceIdentifier"]},
-            "NetworkThroughput": {"Dimensions": ["DBClusterIdentifier"]},
-            "AuroraBinlogReplicaLag": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "Aurora_pq_request_not_chosen_long_trx": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
+            "InsertLatency": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["DatabaseClass"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    [],
+                ]
             },
             "Aurora_pq_request_not_chosen_column_geometry": {
-                "Dimensions": ["DatabaseClass"]
+                "Dimensions": [
+                    ["DatabaseClass"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    [],
+                ]
             },
-            "FreeableMemory": {"Dimensions": ["DBInstanceIdentifier"]},
-            "RowLockTime": {"Dimensions": ["Role", "DBClusterIdentifier"]},
+            "FreeableMemory": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "RowLockTime": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["DatabaseClass"],
+                ]
+            },
+            "Aurora_pq_request_throttled": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
             "ForwardingWriterOpenSessions": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    [],
+                    ["EngineName"],
+                ]
             },
-            "ForwardingReplicaSelectLatency": {"Dimensions": ["DBInstanceIdentifier"]},
             "Aurora_pq_request_not_chosen": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                ]
             },
-            "ForwardingWriterDMLLatency": {"Dimensions": ["DatabaseClass"]},
-            "BlockedTransactions": {"Dimensions": ["Role", "DBClusterIdentifier"]},
+            "StorageNetworkReceiveThroughput": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    [],
+                ]
+            },
+            "ForwardingWriterDMLLatency": {
+                "Dimensions": [
+                    ["DatabaseClass"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
             "Aurora_pq_request_not_chosen_full_text_index": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
+                "Dimensions": [["Role", "DBClusterIdentifier"]]
             },
-            "NumBinaryLogFiles": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "ForwardingReplicaOpenSessions": {"Dimensions": ["DBInstanceIdentifier"]},
-            "Aurora_pq_request_not_chosen_temporary_table": {
-                "Dimensions": ["DatabaseClass"]
+            "ForwardingReplicaOpenSessions": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    [],
+                    ["DBClusterIdentifier"],
+                ]
             },
-            "ReadLatency": {"Dimensions": ["DBClusterIdentifier"]},
-            "Aurora_pq_request_not_chosen_column_virtual": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
+            "ReadLatency": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
             },
-            "NetworkReceiveThroughput": {"Dimensions": ["DBClusterIdentifier"]},
-            "DMLLatency": {"Dimensions": ["DBInstanceIdentifier"]},
-            "DDLLatency": {"Dimensions": []},
-            "CommitThroughput": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "ForwardingReplicaDMLLatency": {"Dimensions": ["DatabaseClass"]},
-            "ConnectionAttempts": {"Dimensions": ["DBInstanceIdentifier"]},
-            "EBSByteBalance%": {"Dimensions": ["DBInstanceIdentifier"]},
-            "Aurora_pq_request_failed": {"Dimensions": ["DBClusterIdentifier"]},
-            "EBSIOBalance%": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "ForwardingReplicaSelectThroughput": {
-                "Dimensions": ["DBInstanceIdentifier"]
+            "NetworkReceiveThroughput": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
+            "DDLLatency": {
+                "Dimensions": [
+                    [],
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "CommitThroughput": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    [],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_below_min_rows": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    [],
+                ]
+            },
+            "ForwardingReplicaDMLLatency": {
+                "Dimensions": [
+                    ["DatabaseClass"],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["EngineName"],
+                ]
+            },
+            "ConnectionAttempts": {
+                "Dimensions": [["DBInstanceIdentifier"], ["DBClusterIdentifier"], []]
+            },
+            "EBSByteBalance%": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "AuroraDMLRejectedWriterFull": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "CommitLatency": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
             },
             "Aurora_pq_request_not_chosen_innodb_table_format": {
-                "Dimensions": ["DBClusterIdentifier"]
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DatabaseClass"],
+                    ["DBInstanceIdentifier"],
+                ]
             },
-            "Queries": {"Dimensions": ["DBClusterIdentifier"]},
-            "NetworkTransmitThroughput": {"Dimensions": ["DatabaseClass"]},
-            "ActiveTransactions": {"Dimensions": ["Role", "DBClusterIdentifier"]},
+            "Queries": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["DatabaseClass"],
+                ]
+            },
+            "NetworkTransmitThroughput": {
+                "Dimensions": [
+                    ["DatabaseClass"],
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
+            "ActiveTransactions": {
+                "Dimensions": [["Role", "DBClusterIdentifier"], ["DBClusterIdentifier"]]
+            },
             "Aurora_pq_request_not_chosen_small_table": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DatabaseClass"],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
             },
-            "AbortedClients": {"Dimensions": ["DBClusterIdentifier"]},
-            "ForwardingWriterDMLThroughput": {"Dimensions": ["DBInstanceIdentifier"]},
+            "AbortedClients": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
+            "ForwardingWriterDMLThroughput": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["EngineName"],
+                    [],
+                ]
+            },
             "ForwardingReplicaReadWaitThroughput": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
             },
-            "DatabaseConnections": {"Dimensions": ["DBInstanceIdentifier"]},
-            "Aurora_pq_request_not_chosen_range_scan": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
+            "DatabaseConnections": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    [],
+                    ["DBClusterIdentifier"],
+                ]
             },
-            "ForwardingReplicaDMLThroughput": {"Dimensions": ["DBClusterIdentifier"]},
+            "ForwardingReplicaDMLThroughput": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
             "Aurora_pq_request_attempted": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
             },
-            "Aurora_pq_request_not_chosen_custom_charset": {"Dimensions": []},
-            "InsertThroughput": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "SwapUsage": {"Dimensions": []},
-            "WriteIOPS": {"Dimensions": ["DBClusterIdentifier"]},
-            "CPUUtilization": {"Dimensions": ["DBInstanceIdentifier"]},
-            "AuroraSlowConnectionHandleCount": {"Dimensions": ["DBInstanceIdentifier"]},
-            "DeleteLatency": {"Dimensions": ["DBInstanceIdentifier"]},
-            "UpdateLatency": {"Dimensions": ["DBInstanceIdentifier"]},
-            "DMLThroughput": {"Dimensions": ["DBInstanceIdentifier"]},
-            "AuroraDMLRejectedWriterFull": {"Dimensions": ["DBInstanceIdentifier"]},
-            "SelectLatency": {"Dimensions": ["DBInstanceIdentifier"]},
-            "WriteThroughput": {"Dimensions": ["DatabaseClass"]},
-            "UpdateThroughput": {"Dimensions": ["DBInstanceIdentifier"]},
-            "VolumeBytesUsed": {"Dimensions": ["DbClusterIdentifier", "EngineName"]},
-            "WriteLatency": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "Aurora_pq_request_not_chosen_column_bit": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
-            },
-            "DiskQueueDepth": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "Aurora_pq_request_not_chosen_row_length_too_long": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
-            },
-            "Aurora_pq_request_not_chosen_tx_isolation": {"Dimensions": ["EngineName"]},
-            "Aurora_pq_request_not_chosen_few_pages_outside_buffer_pool": {
-                "Dimensions": ["DBInstanceIdentifier"]
-            },
-            "Aurora_pq_request_not_chosen_unsupported_access": {
-                "Dimensions": ["DBClusterIdentifier"]
-            },
-            "TotalBackupStorageBilled": {"Dimensions": ["DBClusterIdentifier"]},
-            "FreeLocalStorage": {"Dimensions": ["DBInstanceIdentifier"]},
-            "SumBinaryLogSize": {"Dimensions": ["DBInstanceIdentifier"]},
-            "CPUCreditBalance": {"Dimensions": ["EngineName"]},
-            "Aurora_pq_request_not_chosen_column_lob": {
-                "Dimensions": ["DBClusterIdentifier"]
-            },
-            "BufferCacheHitRatio": {"Dimensions": ["DBClusterIdentifier"]},
-            "RollbackSegmentHistoryListLength": {"Dimensions": ["DBClusterIdentifier"]},
-            "Aurora_pq_request_executed": {"Dimensions": ["DBClusterIdentifier"]},
-            "LoginFailures": {"Dimensions": ["DBInstanceIdentifier"]},
-            "VolumeWriteIOPs": {"Dimensions": ["DbClusterIdentifier", "EngineName"]},
-            "SelectThroughput": {"Dimensions": ["DBClusterIdentifier"]},
-            "AuroraVolumeBytesLeftTotal": {"Dimensions": ["DBInstanceIdentifier"]},
-            "ForwardingReplicaReadWaitLatency": {"Dimensions": ["DBClusterIdentifier"]},
-            "Deadlocks": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "BackupRetentionPeriodStorageUsed": {"Dimensions": ["EngineName"]},
-            "StorageNetworkTransmitThroughput": {"Dimensions": ["DBClusterIdentifier"]},
-            "AuroraEstimatedSharedMemoryBytes": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
-            },
-            "Aurora_pq_request_not_chosen_high_buffer_pool_pct": {
-                "Dimensions": ["DBInstanceIdentifier"]
-            },
-            "CPUCreditUsage": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "StorageNetworkReceiveThroughput": {"Dimensions": ["DBInstanceIdentifier"]},
-            "DeleteThroughput": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "AuroraSlowHandshakeCount": {"Dimensions": ["DBClusterIdentifier"]},
-            "Aurora_pq_request_not_chosen_update_delete_stmts": {
-                "Dimensions": ["DBInstanceIdentifier"]
-            },
-            "Aurora_pq_request_in_progress": {
-                "Dimensions": ["Role", "DBClusterIdentifier"]
-            },
-            "CommitLatency": {"Dimensions": ["DBClusterIdentifier"]},
-            "ReadIOPS": {"Dimensions": ["Role", "DBClusterIdentifier"]},
-            "Aurora_pq_request_not_chosen_index_hint": {
-                "Dimensions": ["DBInstanceIdentifier"]
+            "Aurora_pq_request_not_chosen_custom_charset": {
+                "Dimensions": [
+                    [],
+                    ["Role", "DBClusterIdentifier"],
+                    ["EngineName"],
+                    ["DBInstanceIdentifier"],
+                ]
             },
             "Aurora_pq_request_not_chosen_instant_ddl": {
-                "Dimensions": ["DBInstanceIdentifier"]
+                "Dimensions": [["DBInstanceIdentifier"], ["DBClusterIdentifier"]]
             },
-            "CPUSurplusCreditsCharged": {"Dimensions": []},
-            "EngineUptime": {"Dimensions": ["EngineName"]},
-            "ReadThroughput": {"Dimensions": ["DBInstanceIdentifier"]},
-            "SnapshotStorageUsed": {"Dimensions": ["DBClusterIdentifier"]},
-            "CPUSurplusCreditBalance": {"Dimensions": ["Role", "DBClusterIdentifier"]},
+            "BlockedTransactions": {
+                "Dimensions": [
+                    [],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_long_trx": {
+                "Dimensions": [["DBClusterIdentifier"], ["DBInstanceIdentifier"]]
+            },
+            "SwapUsage": {
+                "Dimensions": [[], ["DatabaseClass"], ["Role", "DBClusterIdentifier"]]
+            },
+            "WriteIOPS": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["EngineName"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
+            "CPUUtilization": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "AuroraSlowConnectionHandleCount": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["EngineName"],
+                ]
+            },
+            "DeleteLatency": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "DDLThroughput": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_failed": {
+                "Dimensions": [["Role", "DBClusterIdentifier"], ["DBClusterIdentifier"]]
+            },
+            "DMLThroughput": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["EngineName"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "AuroraReplicaLagMinimum": {
+                "Dimensions": [["Role", "DBClusterIdentifier"]]
+            },
+            "SelectLatency": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    [],
+                    ["EngineName"],
+                ]
+            },
+            "UpdateThroughput": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "WriteLatency": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_column_bit": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DatabaseClass"],
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "ForwardingReplicaSelectThroughput": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    [],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
+            "DiskQueueDepth": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
+            "StorageNetworkThroughput": {
+                "Dimensions": [["DBInstanceIdentifier"], ["DBClusterIdentifier"]]
+            },
+            "AuroraReplicaLagMaximum": {
+                "Dimensions": [["Role", "DBClusterIdentifier"], ["DBClusterIdentifier"]]
+            },
+            "Aurora_pq_request_not_chosen_temporary_table": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_tx_isolation": {
+                "Dimensions": [
+                    ["EngineName"],
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "InsertThroughput": {
+                "Dimensions": [
+                    ["DatabaseClass"],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_few_pages_outside_buffer_pool": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_unsupported_access": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    [],
+                    ["EngineName"],
+                ]
+            },
+            "CPUCreditBalance": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["EngineName"],
+                    ["DBInstanceIdentifier"],
+                    [],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "TotalBackupStorageBilled": {"Dimensions": [["DBClusterIdentifier"]]},
+            "FreeLocalStorage": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "NetworkThroughput": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
+            "DMLLatency": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["DatabaseClass"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_column_lob": {
+                "Dimensions": [["DBClusterIdentifier"], ["Role", "DBClusterIdentifier"]]
+            },
+            "AuroraBinlogReplicaLag": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                    [],
+                ]
+            },
+            "BufferCacheHitRatio": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
+            "RollbackSegmentHistoryListLength": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DatabaseClass"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_row_length_too_long": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_executed": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "VolumeWriteIOPs": {
+                "Dimensions": [
+                    ["DbClusterIdentifier", "EngineName"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "AuroraVolumeBytesLeftTotal": {"Dimensions": [["DBInstanceIdentifier"]]},
+            "ForwardingReplicaReadWaitLatency": {
+                "Dimensions": [["DBClusterIdentifier"], ["DBInstanceIdentifier"]]
+            },
+            "Deadlocks": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["EngineName"],
+                ]
+            },
+            "BackupRetentionPeriodStorageUsed": {
+                "Dimensions": [["EngineName"], ["DBClusterIdentifier"]]
+            },
+            "LoginFailures": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["DatabaseClass"],
+                ]
+            },
+            "StorageNetworkTransmitThroughput": {
+                "Dimensions": [["DBClusterIdentifier"], ["DBInstanceIdentifier"]]
+            },
+            "Aurora_pq_request_not_chosen_high_buffer_pool_pct": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "CPUCreditUsage": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_column_virtual": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    [],
+                ]
+            },
+            "SelectThroughput": {"Dimensions": [["DBInstanceIdentifier"]]},
+            "WriteThroughput": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "SumBinaryLogSize": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_update_delete_stmts": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DatabaseClass"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_in_progress": {
+                "Dimensions": [
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                ]
+            },
+            "EBSIOBalance%": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "AuroraEstimatedSharedMemoryBytes": {
+                "Dimensions": [["DBClusterIdentifier"], ["DBInstanceIdentifier"]]
+            },
+            "DeleteThroughput": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "AuroraSlowHandshakeCount": {
+                "Dimensions": [["Role", "DBClusterIdentifier"], ["DBClusterIdentifier"]]
+            },
+            "UpdateLatency": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["EngineName"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_index_hint": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["DBClusterIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "Aurora_pq_request_not_chosen_range_scan": {
+                "Dimensions": [["DBClusterIdentifier"], ["Role", "DBClusterIdentifier"]]
+            },
+            "CPUSurplusCreditsCharged": {
+                "Dimensions": [
+                    [],
+                    ["Role", "DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["EngineName"],
+                    ["DBClusterIdentifier"],
+                ]
+            },
+            "EngineUptime": {
+                "Dimensions": [
+                    ["EngineName"],
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "ReadIOPS": {
+                "Dimensions": [["DBClusterIdentifier"], ["DBInstanceIdentifier"]]
+            },
+            "ReadThroughput": {
+                "Dimensions": [
+                    ["DBInstanceIdentifier"],
+                    ["DatabaseClass"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "SnapshotStorageUsed": {"Dimensions": [["DBClusterIdentifier"]]},
+            "Aurora_pq_request_not_chosen_no_where_clause": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["DBInstanceIdentifier"],
+                    ["Role", "DBClusterIdentifier"],
+                ]
+            },
+            "VolumeBytesUsed": {
+                "Dimensions": [
+                    ["DBClusterIdentifier"],
+                    ["DbClusterIdentifier", "EngineName"],
+                ]
+            },
+            "CPUSurplusCreditBalance": {
+                "Dimensions": [["Role", "DBClusterIdentifier"]]
+            },
         },
     }
-
     STATS: list[str] = []
 
     @classmethod
@@ -249,8 +814,9 @@ class Metric:
 
     @classmethod
     def check_dimensions(
-        cls, namespace: str, metric_name: str, dimensions: list[str]
+        cls, namespace: str, metric_name: str, dimension_keys: list[str]
     ) -> bool:
-        return Counter(cls.METRICS[namespace][metric_name]["Dimensions"]) == Counter(
-            dimensions
-        )
+        for dimension in cls.METRICS[namespace][metric_name]["Dimensions"]:
+            if Counter(dimension) == Counter(dimension_keys):
+                return True
+        return False
