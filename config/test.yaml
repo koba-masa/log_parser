@@ -1,6 +1,8 @@
 aws_access_key: 'minio'
 aws_secret_access_key: 'minio123'
 aws_endpoint_url: !ENV ${DUMMY_ENDPOINT_URL}
+aws_role_arn:  # Set Role arn, when use switch role.
+aws_mfa_arn:  # Set MFA device arn, when Role arn is setted.
 
 aws_application_load_balancer:
   - name: sample # unique and snake_case

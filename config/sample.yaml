@@ -1,6 +1,8 @@
 aws_access_key:
 aws_secret_access_key:
 aws_endpoint_url:
+aws_role_arn:  # Set Role arn, when use switch role.
+aws_mfa_arn:  # Set MFA device arn, when Role arn is setted.
 
 aws_application_load_balancer:
   - name:  # unique and snake_case

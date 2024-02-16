@@ -1,17 +1,15 @@
-import boto3
 from models import settings
+from models.aws import BaseClient
 from typing import Any, List
 from botocore.exceptions import ClientError
 
 
-class S3Client:
+class S3Client(BaseClient):
     def __init__(self) -> None:
-        self.client = boto3.client(
-            "s3",
-            aws_access_key_id=settings.SETTINGS["aws_access_key"],
-            aws_secret_access_key=settings.SETTINGS["aws_secret_access_key"],
-            endpoint_url=self.__endpoint_url(),
-        )
+        options = {
+            "endpoint_url": self.__endpoint_url(),
+        }
+        super().__init__("s3", options)
 
     def list_object_v2(
         self, bucket: str, prefix: str, max_per_page: int = 1000
