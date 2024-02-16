@@ -95,7 +95,9 @@ class ApplicationLoadBalancer:
         end_datetime: datetime.datetime,
     ) -> list[str]:
         processed_keys = []
-        base_prefix = self.config["prefix"]
+        base_prefix = self.config.get("prefix", "")
+        if base_prefix is None:  # 値が未設定の場合の対応
+            base_prefix = ""
 
         prefixes = list(
             set(
@@ -128,14 +130,16 @@ class ApplicationLoadBalancer:
         return processed_keys
 
     def __create_prefix(self, base_prefix: str, datetime: datetime.datetime) -> str:
-        return "{}/AWSLogs/{}/elasticloadbalancing/{}/{}/{:02}/{:02}/".format(
+        prefix = "{}/AWSLogs/{}/elasticloadbalancing/{}/{}/{:02}/{:02}/".format(
             base_prefix,
             self.config["account_id"],
             self.config["region"],
             datetime.year,
             datetime.month,
             datetime.day,
-        )
+        ).replace("//", "/")
+
+        return prefix if not prefix.startswith("/") else prefix[1:]
 
     def __process_data(self, key: str, data: str) -> list[list[str]]:
         rows = []
