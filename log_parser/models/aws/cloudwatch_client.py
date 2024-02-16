@@ -1,12 +1,7 @@
-import boto3
-from models import settings
+from models.aws import BaseClient
 
 
-class CloudWatchClient:
+class CloudWatchClient(BaseClient):
     def __init__(self, region: str) -> None:
-        self.client = boto3.client(
-            "cloudwatch",
-            aws_access_key_id=settings.SETTINGS["aws_access_key"],
-            aws_secret_access_key=settings.SETTINGS["aws_secret_access_key"],
-            region_name=region,
-        )
+        options = {"region_name": region}
+        super().__init__("cloudwatch", options)
